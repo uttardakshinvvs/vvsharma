@@ -2,28 +2,25 @@ import os, re
 
 origin_hosts = ("http://vvsharma.in", "https://vvsharma.in")
 
-def fix_paths(s: str) -> str:
-    # 1) Replace absolute host with relative
+def fix_text(s: str) -> str:
     for host in origin_hosts:
-        s = s.replace(host + "/", "./")
-        s = s.replace(host, ".")
-
-    # 2) Root-absolute → relative for common attributes
-    #    src="/img/..." or href="/img/..." -> "./img/..."
-    s = re.sub(r'(?i)(src|href)\s*=\s*"\/(img\/[^"]+)"', r'\1="./\2"', s)
-
-    # 3) contact.php -> contact.html (Pages is static)
+        s = s.replace(host + "/", "./").replace(host, ".")
+    # PHP → HTML
     s = s.replace("contact.php", "contact.html")
+    # root-absolute → relative in HTML
+    s = re.sub(r'(?i)(href|src)\s*=\s*"/', r'\1="./', s)
+    return s
 
-    # 4) Make remaining site-root href="/..." relative
-    s = re.sub(r'(?i)href\s*=\s*"\/(?!\/)', r'href="./', s)
-    s = re.sub(r'(?i)src\s*=\s*"\/(?!\/)', r'src="./', s)
-
+def fix_css(s: str) -> str:
+    s = s.replace("https://vvsharma.in/", "./").replace("http://vvsharma.in/", "./")
+    # url(/img/...) → url(./img/...)
+    s = re.sub(r'url\(\s*[\'"]?/(?!/)', 'url(./', s, flags=re.IGNORECASE)
     return s
 
 for dirpath, _, files in os.walk("."):
     for fn in files:
-        if not fn.lower().endswith((".html",".css",".js",".xml",".txt",".json",".htm")):
+        low = fn.lower()
+        if not low.endswith((".html", ".css", ".js", ".xml", ".txt", ".json", ".htm")):
             continue
         p = os.path.join(dirpath, fn)
         try:
@@ -31,9 +28,9 @@ for dirpath, _, files in os.walk("."):
                 s = f.read()
         except Exception:
             continue
-        ns = fix_paths(s)
+        ns = fix_css(s) if low.endswith(".css") else fix_text(s)
         if ns != s:
             with open(p, "w", encoding="utf-8") as f:
                 f.write(ns)
 
-print("Postprocess: links rewritten to relative, contact.php -> contact.html")
+print("Postprocess: HTML & CSS links rewritten to relative, contact.php → contact.html")
