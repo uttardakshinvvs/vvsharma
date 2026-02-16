@@ -1,0 +1,16 @@
+# Node/build artifacts
+node_modules/
+dist/
+.build/
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
