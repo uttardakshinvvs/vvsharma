@@ -42,6 +42,15 @@ jobs:
           set -euo pipefail
           bash scripts/wayback_fallback.sh || true
 
+      # ------------------------------------------------------------------
+      # ⭐ NEW STEP: parse mirrored HTML pages and fetch every referenced
+      # image/CSS/JS/PDF without listing /img/ (which returns 403).
+      # Requires: scripts/fetch_assets_from_pages.py (you created earlier).
+      # ------------------------------------------------------------------
+      - name: Parse pages and fetch assets (no directory listing)
+        run: |
+          python3 scripts/fetch_assets_from_pages.py
+
       - name: Postprocess links
         run: |
           python3 scripts/postprocess.py || true
