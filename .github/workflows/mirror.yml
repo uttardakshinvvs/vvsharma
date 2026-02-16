@@ -1,21 +1,51 @@
-
 name: Mirror vvsharma.in to Pages repo
 on:
   workflow_dispatch:
+
 permissions:
   contents: write
+
 jobs:
   mirror:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Install tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget rsync python3
-      - name: Run mirror script
+          sudo apt-get install -y wget rsync python3 curl
+
+      - name: Run primary mirror (robust)
+        shell: bash
         run: |
-          bash scripts/mirror_site.sh
+          set -euo pipefail
+          bash scripts/mirror_site.sh || echo "::warning ::Primary mirror script returned non-zero; will try fallbacks"
+
+      - name: If nothing mirrored, try selective pulls (fallback)
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # If the mirror script did not bring index.html to repo root, do selective pulls.
+          if [ ! -f index.html ]; then
+            echo "Attempting selective pulls with retries/backoff..."
+            bash scripts/mirror_selective.sh || echo "::warning ::Selective mirror also failed; Wayback fallback may still run."
+          else
+            echo "Index found; selective fallback not needed."
+          fi
+
+      - name: Wayback safety (last resort for each key page)
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/wayback_fallback.sh || true
+
+      - name: Postprocess links
+        run: |
+          python3 scripts/postprocess.py || true
+
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
@@ -24,6 +54,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Mirror from vvsharma.in on $(date -u +"%Y-%m-%d %H:%M:%S")"
+            git commit -m "Mirror from vvsharma.in with retries on $(date -u +'%Y-%m-%d %H:%M:%S')"
             git push
           fi
