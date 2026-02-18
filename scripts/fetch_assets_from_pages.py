@@ -3,7 +3,7 @@ import os, re, sys, time, urllib.parse, ssl, html as htmlmod
 from urllib.request import Request, urlopen
 from pathlib import Path
 
-ORIGIN = "https://vvsharma.in"
+ORIGIN = "https://vvsharma.com"
 PAGES = [
     "index.html",
     "biography.html",
@@ -37,9 +37,9 @@ def norm_same_host(url: str) -> str | None:
     if not parsed.scheme:
         url = urllib.parse.urljoin(ORIGIN + "/", url)
         parsed = urllib.parse.urlparse(url)
-    if parsed.netloc and parsed.netloc not in ("vvsharma.in",):
+    if parsed.netloc and parsed.netloc not in ("vvsharma.com",):
         return None
-    norm = parsed._replace(scheme="https", netloc="vvsharma.in", params="", query="", fragment="")
+    norm = parsed._replace(scheme="https", netloc="vvsharma.com", params="", query="", fragment="")
     return urllib.parse.urlunparse(norm)
 
 def page_out_name(src: str) -> str:
@@ -91,7 +91,7 @@ def find_css_urls(css_text: str, css_base_url: str) -> list[tuple[str,str]]:
 
 def rewrite_html_links(html_bytes: bytes) -> bytes:
     s = html_bytes.decode("utf-8", errors="ignore")
-    s = s.replace("https://vvsharma.in/", "./").replace("http://vvsharma.in/", "./")
+    s = s.replace("https://vvsharma.com/", "./").replace("http://vvsharma.com/", "./")
     s = re.sub(r'(?i)(href|src)\s*=\s*"/', r'\1="./', s)  # root-abs → rel
     s = s.replace("contact.php", "contact.html")
     return s.encode("utf-8")
@@ -114,8 +114,8 @@ def css_rewrite_to_rel(css_text: str, css_local_path: str, pairs: list[tuple[str
         pattern = re.compile(r'url\(\s*[\'"]?'+re.escape(raw)+r'\s*[\'"]?\)', flags=re.IGNORECASE)
         css_text = pattern.sub(f"url({rel})", css_text)
     # Also convert host-absolute leftovers to relative to CSS file
-    css_text = css_text.replace("https://vvsharma.in/", "")
-    css_text = css_text.replace("http://vvsharma.in/", "")
+    css_text = css_text.replace("https://vvsharma.com/", "")
+    css_text = css_text.replace("http://vvsharma.com/", "")
     return css_text
 
 def main():

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ORIGIN_BASE="https://vvsharma.in"
+ORIGIN_BASE="https://vvsharma.com"
 TMP_DIR="_mirror_tmp"
 
 rm -rf "$TMP_DIR"

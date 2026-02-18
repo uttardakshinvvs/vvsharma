@@ -1,6 +1,6 @@
 
 $ErrorActionPreference = 'Stop'
-$Origin = 'https://vvsharma.in'
+$Origin = 'https://vvsharma.com'
 $Tmp = '_mirror_tmp'
 if (Test-Path $Tmp) { Remove-Item -Recurse -Force $Tmp }
 New-Item -ItemType Directory -Force -Path $Tmp | Out-Null

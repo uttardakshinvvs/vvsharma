@@ -1,6 +1,6 @@
 import os, re
 
-ORIGINS = ("http://vvsharma.in", "https://vvsharma.in")
+ORIGINS = ("http://vvsharma.com", "https://vvsharma.com")
 
 def fix_html(s: str) -> str:
     for host in ORIGINS:

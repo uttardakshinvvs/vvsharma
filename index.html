@@ -451,6 +451,37 @@ div#b64a {
     display: inline;
 }
 
+.bt {
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0em;
+    background-color: #dc7327;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    
+    /* FIX: Ensure button grows to fit text */
+    padding: 12px 24px; 
+    width: auto !important; 
+    height: auto !important;
+    
+    /* FIX: Force text to stay on one line */
+    white-space: nowrap; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Container to keep them side-by-side */
+.button-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
 
 </style>
   </head>
@@ -493,20 +524,22 @@ div#b64a {
 
 <section id="b2">
   <div class="container">
-  <div class="b21"><h1 id="b2a">Welcome to </h1><h1 id="b2b"> Venkatesh Sharma Music</h1>
-<p id="b2c">Karnatic - Hindustani - Jugalbandhi Vocalist</p>
-<a href="img/profile.pdf" target="_blank">
-<button type="button" class="bt" style="font-family: Inter;
-font-size: 18px;
-font-weight: 600;
-line-height: 22px;
-letter-spacing: 0em;
-">Download Profile</button></a>
+    <div class="b21">
+      <h1 id="b2a">Welcome to </h1><h1 id="b2b"> Venkatesh Sharma Music</h1>
+      <p id="b2c">Karnatic - Hindustani - Jugalbandhi Vocalist</p>
+      
+      <div class="button-group">
+        <a href="img/vidwan-venkatesh-sharma_profile.pdf" target="_blank">
+          <button type="button" class="bt">Download Profile</button>
+        </a>
 
-</div>
+        <a href="img/vidwan-venkatesh-sharma_press.pdf" target="_blank">
+          <button type="button" class="bt">Testimonials & Press</button>
+        </a>
+      </div>
+    </div>
   </div>
-
-</section >
+</section>
 
 
 <section id="b3">
@@ -755,7 +788,7 @@ Bangalore 560061</p>
     <a href="video.html"><h1 id="b6c">Video</h1></a>
     <a href="contact.html"><h1 id="b6c">Contact</h1></a>
    
-    <p id="b62">Copyrights@2023 vvsharma.in All Right Reserved.</p>
+    <p id="b62">Copyrights@2023 vvsharma.com All Right Reserved.</p>
     </div>
   </div>
 
