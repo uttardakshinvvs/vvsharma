@@ -451,20 +451,20 @@ div#b64a {
     display: inline;
 }
 
-/* Container: Remove fixed height so it can grow when buttons stack */
+/* Container Fix: Ensures it grows as buttons stack and clears the About section */
 .button-group {
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
     margin-top: 25px;
-    margin-bottom: 20px;
+    margin-bottom: 30px; /* Space added here to push 'About' text down */
     height: auto !important; 
 }
 
-/* Button: Use padding instead of height to prevent text spill */
+/* Button Fix: Uses auto-height to prevent text from spilling out the bottom */
 .bt {
     font-family: 'Inter', sans-serif;
-    font-size: 16px; /* Slightly smaller for mobile fit */
+    font-size: 16px; 
     font-weight: 600;
     background-color: #dc7327;
     color: #000;
@@ -473,7 +473,7 @@ div#b64a {
     padding: 10px 20px;
     cursor: pointer;
     width: auto !important;
-    height: auto !important; /* Fixes spill seen in image_758264.png */
+    height: auto !important; /* Prevents text clipping from image_758264.png */
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -481,18 +481,44 @@ div#b64a {
     text-decoration: none;
 }
 
-/* Mobile: Stack buttons closely */
+/* Mobile Specific: Stacks buttons vertically and closely */
 @media screen and (max-width: 768px) {
     .button-group {
-        flex-direction: column !important; /* Vertical stack */
-        gap: 8px !important; /* This keeps them very close */
+        flex-direction: column !important; /* Fixes overlap in image_6b8566.jpg */
+        gap: 10px !important; /* Sets close stacking distance */
         align-items: flex-start;
+        margin-bottom: 25px;
     }
 
     .bt {
-        width: 220px !important; /* Uniform width for a clean look */
-        white-space: normal;     /* Allows text to wrap if screen is tiny */
+        width: 240px !important; /* Uniform width for clean stacking */
+        white-space: normal;     /* Allows text to wrap safely if needed */
         text-align: center;
+    }
+    
+    /* Extra gap for the About section on mobile specifically */
+    #s21 {
+        margin-top: 40px !important;
+    }
+}
+
+/* Adds a clear gap between the buttons and the About section */
+#about, .about-section { 
+    margin-top: 50px !important; 
+    padding-top: 20px;
+    clear: both; /* Ensures no floating elements interfere */
+}
+
+/* Specifically target the heading inside the About section */
+#about h2, .about-section h2 {
+    margin-top: 0;
+    padding-top: 10px;
+}
+
+/* Mobile specific adjustment for the About section */
+@media screen and (max-width: 768px) {
+    #about, .about-section {
+        margin-top: 40px !important;
     }
 }
 
@@ -554,7 +580,6 @@ div#b64a {
     </div>
   </div>
 </section>
-
 
 <section id="b3">
   <div class="container">
