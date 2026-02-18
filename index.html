@@ -451,36 +451,49 @@ div#b64a {
     display: inline;
 }
 
-.bt {
-    font-family: Inter;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 22px;
-    letter-spacing: 0em;
-    background-color: #dc7327;
-    color: #000;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    
-    /* FIX: Ensure button grows to fit text */
-    padding: 12px 24px; 
-    width: auto !important; 
-    height: auto !important;
-    
-    /* FIX: Force text to stay on one line */
-    white-space: nowrap; 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Container to keep them side-by-side */
+/* Container: Remove fixed height so it can grow when buttons stack */
 .button-group {
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    height: auto !important; 
+}
+
+/* Button: Use padding instead of height to prevent text spill */
+.bt {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px; /* Slightly smaller for mobile fit */
+    font-weight: 600;
+    background-color: #dc7327;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: auto !important;
+    height: auto !important; /* Fixes spill seen in image_758264.png */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+/* Mobile: Stack buttons closely */
+@media screen and (max-width: 768px) {
+    .button-group {
+        flex-direction: column !important; /* Vertical stack */
+        gap: 8px !important; /* This keeps them very close */
+        align-items: flex-start;
+    }
+
+    .bt {
+        width: 220px !important; /* Uniform width for a clean look */
+        white-space: normal;     /* Allows text to wrap if screen is tiny */
+        text-align: center;
+    }
 }
 
 </style>
@@ -525,15 +538,16 @@ div#b64a {
 <section id="b2">
   <div class="container">
     <div class="b21">
-      <h1 id="b2a">Welcome to </h1><h1 id="b2b"> Venkatesh Sharma Music</h1>
+      <h1 id="b2a">Welcome to </h1>
+      <h1 id="b2b">Venkatesh Sharma Music</h1>
       <p id="b2c">Karnatic - Hindustani - Jugalbandhi Vocalist</p>
       
       <div class="button-group">
-        <a href="img/vidwan-venkatesh-sharma_profile.pdf" target="_blank">
+        <a href="img/vidwan-venkatesh-sharma_profile.pdf" target="_blank" style="text-decoration:none;">
           <button type="button" class="bt">Download Profile</button>
         </a>
 
-        <a href="img/vidwan-venkatesh-sharma_press.pdf" target="_blank">
+        <a href="img/vidwan-venkatesh-sharma_press.pdf" target="_blank" style="text-decoration:none;">
           <button type="button" class="bt">Testimonials & Press</button>
         </a>
       </div>
